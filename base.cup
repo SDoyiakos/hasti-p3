@@ -91,6 +91,7 @@ precedence left AND;
 precedence nonassoc GREATER, GREATEREQ, LESS, LESSEQ, EQUALS, NOTEQUALS;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
+precedence right NOT;
 
 start with program;
 
@@ -126,6 +127,10 @@ varDecl         ::= type:t id:i DOT
 type            ::= LOGICAL
                 {: RESULT = new LogicalNode();
                 :}
+		|
+		INTEGER:i
+		{: RESULT = new IntegerNode();
+		:}
                 ;
 
 id              ::= ID:i
