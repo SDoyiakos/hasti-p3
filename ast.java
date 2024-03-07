@@ -305,6 +305,7 @@ class IntegerNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("integer");
     }
 }
 
@@ -313,6 +314,7 @@ class VoidNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("void");
     }
 }
 

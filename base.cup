@@ -131,6 +131,10 @@ type            ::= LOGICAL
 		INTEGER:i
 		{: RESULT = new IntegerNode();
 		:}
+		|
+		VOID:i
+		{: RESULT = new VoidNode();
+		:}
                 ;
 
 id              ::= ID:i
