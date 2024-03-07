@@ -82,8 +82,14 @@ non terminal TypeNode         type;
 non terminal IdNode           id;
  
  
-/* NOTE: Add precedence and associativity declarations here */
+/* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
+   	 to highest at bottom) */
 
+precedence left ASSIGN;
+precedence left OR;
+precedence left AND;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
 
 start with program;
 
