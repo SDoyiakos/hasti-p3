@@ -162,7 +162,7 @@ class StmtListNode extends ASTnode {
 
     public void unparse(PrintWriter p, int indent) {
 	for(StmtNode stmt: myStmts){
-	    stmt.unparse(p,0);
+	    stmt.unparse(p,indent);
 	    p.print("\n");
 	}
     }
@@ -178,7 +178,7 @@ class ExpListNode extends ASTnode {
 
     public void unparse(PrintWriter p, int indent) {
 	for(ExpNode expr: myExps){
-	    expr.unparse(p,0);
+	    expr.unparse(p,indent);
 	    p.print("\n");
 	}
     }
@@ -192,6 +192,7 @@ class FormalsListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
 	p.print("{");
 	for(FormalDeclNode formal: myFormals){
 	    p.print(" ");
@@ -212,9 +213,11 @@ class FctnBodyNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
 	p.print("[\n");
 	myDeclList.unparse(p,4);
 	myStmtList.unparse(p,4);
+	doIndent(p,indent);
 	p.print("]\n");
     }
 
@@ -305,10 +308,12 @@ class TupleDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
 	p.print("tuple ");
-	myId.unparse(p,0);
+	myId.unparse(p, 0);
 	p.print(" {\n");
-	myDeclList.unparse(p,4);
+	myDeclList.unparse(p,indent + 4);
+	doIndent(p,indent);
 	p.print("}.\n");
     }
 
