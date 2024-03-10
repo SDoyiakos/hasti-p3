@@ -11,4 +11,6 @@ tuple Man {
 void testFunc {} [
     integer data.
     void random.
+    tuple test1 test2.
 ]
+tuple id1 id2.

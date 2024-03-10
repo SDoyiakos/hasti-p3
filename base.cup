@@ -123,21 +123,25 @@ declList        ::= declList:dl decl:d
 decl            ::= varDecl:v
                 {: RESULT = v;
                 :}
-		|
-		tupleDecl:t
+		| tupleDecl:t
 		{:
 		RESULT = t;
 		:}
-		|
-		fctnDecl:f
+		| fctnDecl:f
 		{:
 		RESULT = f;
 		:}
                 ;
 
 varDecl         ::= type:t id:i DOT
-                {: RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);
+                {:
+		RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);
                 :}
+		| TUPLE id:i1 id:i2 DOT
+		{:
+		TupleNode tNode = new TupleNode(i1);
+		RESULT = new VarDeclNode(tNode, i2, 1);
+		:}
                 ;
 
 varDeclList	::= varDeclList:l varDecl:v
@@ -183,8 +187,7 @@ tupleBody	::= tupleBody:body varDecl:v
 		body.add(v);						      
 		RESULT = body;						      
 		:}							      
-		|							      
-		varDecl:v						      
+		| varDecl:v						      
 		{:							      
 		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
 		nodes.add(v);						      

@@ -362,6 +362,8 @@ class TupleNode extends TypeNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("tuple ");
+	myId.unparse(p,indent);
     }
 	
 	// 1 child
