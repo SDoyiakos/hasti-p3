@@ -82,6 +82,7 @@ non terminal TypeNode         type;
 non terminal IdNode           id;
 non terminal TupleDeclNode    tupleDecl;
 non terminal LinkedList       tupleBody;
+non terminal FctnDeclNode     fctnDecl;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
@@ -105,29 +106,6 @@ program         ::= declList: d
                 {: RESULT = new ProgramNode(new DeclListNode(d));
                 :}
                 ;
-		
-tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT                   
-                {:
-		DeclListNode decl = new DeclListNode(b);
-                RESULT = new TupleDeclNode(i, decl);      
-                :}                                         
-                ;
-                
-tupleBody	::= tupleBody:body varDecl:v
-		{:
-		body.add(v);
-		RESULT = body;
-		:}
-		|
-		varDecl:v
-		{:
-		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
-		nodes.add(v);
-		RESULT = nodes;
-		:}
-		;
-		
-
 
 declList        ::= declList:dl decl:d
                 {: dl.addLast(d);
@@ -172,3 +150,28 @@ id              ::= ID:i
                 :}
                 ;
 				
+tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT                  
+                {:							      
+		DeclListNode decl = new DeclListNode(b);		      
+                RESULT = new TupleDeclNode(i, decl);      		      
+                :}                                         		      
+                ;							      
+                							      
+tupleBody	::= tupleBody:body varDecl:v				      
+		{:							      
+		body.add(v);						      
+		RESULT = body;						      
+		:}							      
+		|							      
+		varDecl:v						      
+		{:							      
+		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
+		nodes.add(v);						      
+		RESULT = nodes;						      
+		:}							      
+		;							      
+									      
+fctnDecl	::= type:t id:i formals:f fctnBody:b
+		{:
+		:}
+		;
