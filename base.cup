@@ -80,8 +80,9 @@ non terminal DeclNode         decl;
 non terminal VarDeclNode      varDecl;
 non terminal TypeNode         type;
 non terminal IdNode           id;
-non terminal tupleDeclNode    tupleDecl;
- 
+non terminal TupleDeclNode    tupleDecl;
+non terminal LinkedList       tupleBody;
+
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
 
@@ -104,6 +105,29 @@ program         ::= declList: d
                 {: RESULT = new ProgramNode(new DeclListNode(d));
                 :}
                 ;
+		
+tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT                   
+                {:
+		DeclListNode decl = new DeclListNode(b);
+                RESULT = new TupleDeclNode(i, decl);      
+                :}                                         
+                ;
+                
+tupleBody	::= tupleBody:body varDecl:v
+		{:
+		body.add(v);
+		RESULT = body;
+		:}
+		|
+		varDecl:v
+		{:
+		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
+		nodes.add(v);
+		RESULT = nodes;
+		:}
+		;
+		
+
 
 declList        ::= declList:dl decl:d
                 {: dl.addLast(d);
@@ -117,6 +141,11 @@ declList        ::= declList:dl decl:d
 decl            ::= varDecl:v
                 {: RESULT = v;
                 :}
+		|
+		tupleDecl:t
+		{:
+		RESULT = t;
+		:}
                 ;
 
 varDecl         ::= type:t id:i DOT
