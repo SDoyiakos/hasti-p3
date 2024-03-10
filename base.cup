@@ -83,6 +83,10 @@ non terminal IdNode           id;
 non terminal TupleDeclNode    tupleDecl;
 non terminal LinkedList       tupleBody;
 non terminal FctnDeclNode     fctnDecl;
+non terminal FctnBodyNode     fctnBody;
+non terminal LinkedList	      stmtList;
+non terminal FormalsListNode  formals;
+non terminal LinkedList	      varDeclList;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
@@ -124,12 +128,29 @@ decl            ::= varDecl:v
 		{:
 		RESULT = t;
 		:}
+		|
+		fctnDecl:f
+		{:
+		RESULT = f;
+		:}
                 ;
 
 varDecl         ::= type:t id:i DOT
                 {: RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);
                 :}
                 ;
+
+varDeclList	::= varDeclList:l varDecl:v
+		{:
+		l.add(v);
+		RESULT = l;
+		:}
+		| /* epsilon */
+		{:
+		LinkedList<VarDeclNode> list = new LinkedList<VarDeclNode>();
+		RESULT = list;
+		:}
+		;
 
 type            ::= LOGICAL
                 {: RESULT = new LogicalNode();
@@ -173,5 +194,27 @@ tupleBody	::= tupleBody:body varDecl:v
 									      
 fctnDecl	::= type:t id:i formals:f fctnBody:b
 		{:
+		RESULT = new FctnDeclNode(t,i,f,b);
+		:}
+		;
+
+fctnBody	::= LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
+		{:
+		DeclListNode vars = new DeclListNode(v);
+		StmtListNode stmts = new StmtListNode(s);
+		RESULT = new FctnBodyNode(vars, stmts);
+		:}
+		;
+		
+stmtList	::= /* epsilon */
+		{:
+		LinkedList<StmtNode> list = new LinkedList<StmtNode>();
+		RESULT = list;
+		:}
+		;
+
+formals		::= LCURLY RCURLY
+		{:
+		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
 		:}
 		;
