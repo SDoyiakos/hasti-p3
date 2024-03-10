@@ -277,6 +277,11 @@ class TupleDeclNode extends DeclNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("tuple ");
+	myId.unparse(p,0);
+	p.print(" {\n");
+	myDeclList.unparse(p,4);
+	p.print("}.\n");
     }
 
     // 2 children

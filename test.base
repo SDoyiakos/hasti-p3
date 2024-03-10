@@ -2,3 +2,8 @@ logical a.
 logical b.
 integer c.
 integer f.
+integer d.
+tuple Man {
+      integer age.
+      logical data.
+}.
