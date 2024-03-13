@@ -30,7 +30,7 @@ terminal                LOGICAL;
 terminal                VOID;
 terminal                TUPLE;
 terminal TokenVal 	TRUE;
-terminal                FALSE;
+terminal TokenVal	FALSE;
 terminal IdTokenVal     ID;
 terminal IntLitTokenVal INTLITERAL;
 terminal StrLitTokenVal STRLITERAL;
@@ -84,6 +84,7 @@ non terminal TupleDeclNode    tupleDecl;
 non terminal LinkedList       tupleBody;
 non terminal FctnDeclNode     fctnDecl;
 non terminal FctnBodyNode     fctnBody;
+non terminal CallExpNode      fctnCall;
 non terminal LinkedList	      stmtList;
 non terminal FormalsListNode  formals;
 non terminal LinkedList	      varDeclList;
@@ -199,7 +200,13 @@ tupleBody	::= tupleBody:body varDecl:v
 		RESULT = nodes;						      
 		:}							      
 		;							      
-									      
+
+fctnCall	::= id:i LPAREN RPAREN
+		{:
+		RESULT = new CallExpNode(i,null);
+		:}
+		;
+
 fctnDecl	::= type:t id:i formals:f fctnBody:b
 		{:
 		RESULT = new FctnDeclNode(t,i,f,b);
@@ -231,6 +238,10 @@ stmt		::= RETURN exp:e DOT
 		{:
 		RESULT = new ReturnStmtNode(e);
 		:}
+		| RETURN DOT
+		{:
+		RESULT = new ReturnStmtNode(null);
+		:}
 		;
 
 
@@ -246,9 +257,31 @@ exp		::= term:t
 		;
 		
 term		::= TRUE:t
-		{: RESULT = new TrueNode(t.lineNum,t.charNum);
+		{:
+		RESULT = new TrueNode(t.lineNum,t.charNum);
+		:}
+		| FALSE:t
+		{:
+		RESULT = new FalseNode(t.lineNum,t.charNum);
+		:}
+		| INTLITERAL:t
+		{:
+		RESULT = new IntLitNode(t.lineNum,t.charNum,t.intVal);
+		:}
+		| STRLITERAL:t
+		{:
+		RESULT = new StringLitNode(t.lineNum,t.charNum,t.strVal);
+		:}
+		| LPAREN exp:e RPAREN
+		{:
+		RESULT = e;
+		:}
+		| fctnCall:f
+		{:
+		RESULT = f;
 		:}
 		;
+
 
 loc		::= id:i
 		{:

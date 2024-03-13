@@ -13,6 +13,9 @@ void testFunc {} [
     void random.
     tuple test1 test2.
     return True.
+    return "test".
+    return False.
+    return.
 ]
 tuple id1 id2.
 

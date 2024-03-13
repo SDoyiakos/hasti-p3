@@ -497,6 +497,9 @@ class CallStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	if(myCall!=null){
+	    myCall.unparse(p,indent+4);
+	}
     }
 
     // 1 child
@@ -510,8 +513,12 @@ class ReturnStmtNode extends StmtNode {
 
     public void unparse(PrintWriter p, int indent) {
 	doIndent(p,indent);
-	myExp.unparse(p,indent);
-	p.print(".");
+	p.print("return");
+	if(myExp!=null){
+	    p.print(" ");
+	    myExp.unparse(p,indent);
+	}
+	    p.print(".");
     }
 
     // 1 child
@@ -546,6 +553,7 @@ class FalseNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("false");
     }
 
     private int myLineNum;
@@ -576,6 +584,7 @@ class IntLitNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print(myIntVal);
     }
 
     private int myLineNum;
@@ -591,6 +600,7 @@ class StringLitNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print(myStrVal);
     }
 
     private int myLineNum;
@@ -605,6 +615,7 @@ class TupleAccessExpNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+       
     }
 
     // 2 children
