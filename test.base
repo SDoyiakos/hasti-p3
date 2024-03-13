@@ -12,5 +12,7 @@ void testFunc {} [
     integer data.
     void random.
     tuple test1 test2.
+    return True.
 ]
 tuple id1 id2.
+

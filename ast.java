@@ -383,8 +383,8 @@ class AssignStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-    }
 
+    }
     // 1 child
     private AssignExpNode myAssign;
 }
@@ -509,6 +509,9 @@ class ReturnStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
+	myExp.unparse(p,indent);
+	p.print(".");
     }
 
     // 1 child
@@ -529,6 +532,7 @@ class TrueNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	p.print("true");
     }
 
     private int myLineNum;

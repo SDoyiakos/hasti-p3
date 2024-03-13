@@ -29,7 +29,7 @@ terminal                INTEGER;
 terminal                LOGICAL;
 terminal                VOID;
 terminal                TUPLE;
-terminal                TRUE;
+terminal TokenVal 	TRUE;
 terminal                FALSE;
 terminal IdTokenVal     ID;
 terminal IntLitTokenVal INTLITERAL;
@@ -87,6 +87,11 @@ non terminal FctnBodyNode     fctnBody;
 non terminal LinkedList	      stmtList;
 non terminal FormalsListNode  formals;
 non terminal LinkedList	      varDeclList;
+non terminal ExpNode	      term;
+non terminal ExpNode	      exp;
+non terminal AssignExpNode    assignExp;
+non terminal LinkedList       loc;
+non terminal StmtNode	      stmt;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
@@ -209,15 +214,51 @@ fctnBody	::= LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}
 		;
 		
-stmtList	::= /* epsilon */
+stmtList	::= stmtList:l stmt:s
+		{:
+		l.add(s);
+		RESULT = l;
+		:}
+		|
+		/* epsilon */
 		{:
 		LinkedList<StmtNode> list = new LinkedList<StmtNode>();
 		RESULT = list;
 		:}
 		;
 
+stmt		::= RETURN exp:e DOT
+		{:
+		RESULT = new ReturnStmtNode(e);
+		:}
+		;
+
+
 formals		::= LCURLY RCURLY
 		{:
 		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
+		:}
+		;
+
+exp		::= term:t
+		{: RESULT = t;
+		:}
+		;
+		
+term		::= TRUE:t
+		{: RESULT = new TrueNode(t.lineNum,t.charNum);
+		:}
+		;
+
+loc		::= id:i
+		{:
+		LinkedList<IdNode> ids = new LinkedList<IdNode>();
+		ids.add(i);
+		RESULT = ids;
+		:}
+		| loc:l COLON id:i
+		{:
+		l.add(i);
+		RESULT = l;
 		:}
 		;
