@@ -22,12 +22,13 @@ void testFunc {integer input1, logical value1} [
     read >> start:next.
     write << a & b & c.
     
-    while a [
+    while a < 3 [
     	  integer val.
 	  write << "written val".
 	  return -8.
 	  return val.
 	  return -a | ~b.
+
     ]
 
     return ~a.
