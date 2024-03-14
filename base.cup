@@ -95,6 +95,7 @@ non terminal StmtNode	      stmt;
 non terminal FormalDeclNode   formalDecl;
 non terminal LinkedList       formalsList;
 non terminal FormalsListNode  formals;
+non terminal LinkedList	      actualList;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
@@ -332,8 +333,25 @@ term		::= loc:l
 fctnCall	::= id:i LPAREN RPAREN		   
 		{:				   
 		RESULT = new CallExpNode(i,null);  
-		:}				   
+		:}
+		| id:i LPAREN actualList:l RPAREN
+		{:
+		RESULT = new CallExpNode(i,new ExpListNode(l));
+		:}
 		;				   
+
+actualList	::= exp:e
+		{:
+		LinkedList<ExpNode> list = new LinkedList<ExpNode>();
+		list.add(e);
+		RESULT = list;
+		:}
+		| actualList:l COMMA exp:e
+		{:
+		l.add(e);
+		RESULT = l;
+		:}
+		;
 
 type            ::= LOGICAL
                 {: RESULT = new LogicalNode();
