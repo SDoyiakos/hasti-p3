@@ -140,23 +140,65 @@ decl            ::= varDecl:v
 		RESULT = f;
 		:}
                 ;
+		
+varDeclList	::= varDeclList:l varDecl:v				       
+		{:							       
+		l.add(v);						       
+		RESULT = l;						       
+		:}							       
+		| /* epsilon */						       
+		{:							       
+		LinkedList<VarDeclNode> list = new LinkedList<VarDeclNode>();  
+		RESULT = list;						       
+		:}
+		;							       
 
-formalDecl	::= type:t id:i
-		{:
-		RESULT =
-		new FormalDeclNode(t,i);
-		:}
-		;
+varDecl         ::= type:t id:i DOT						   
+                {:								   
+		RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);		   
+                :}								   
+		| TUPLE id:i1 id:i2 DOT						   
+		{:								   
+		TupleNode tNode = new TupleNode(i1);				   
+		RESULT = new VarDeclNode(tNode, i2, 1);				   
+		:}								   
+                ;								  	   
 
-formals		::= LCURLY RCURLY
-		{:
-		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
-		:}
-		| LCURLY formalsList:l RCURLY
-		{:
-		RESULT = new FormalsListNode(l);
-		:}
+fctnDecl	::= type:t id:i formals:f fctnBody:b		  
+		{:						  
+		RESULT = new FctnDeclNode(t,i,f,b);		  
+		:}						  
+		;						  
+
+tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT          
+                {:						      
+		DeclListNode decl = new DeclListNode(b);	      
+                RESULT = new TupleDeclNode(i, decl);      	      
+                :}                                         	      
+                ;
+
+tupleBody	::= tupleBody:body varDecl:v				      
+		{:							      
+		body.add(v);						      
+		RESULT = body;						      
+		:}							      
+		| varDecl:v						      
+		{:							      
+		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
+		nodes.add(v);						      
+		RESULT = nodes;						      
+		:}							      
 		;
+		
+formals		::= LCURLY RCURLY						    
+		{:								    
+		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());	    
+		:}								    
+		| LCURLY formalsList:l RCURLY					    
+		{:								    
+		RESULT = new FormalsListNode(l);				    
+		:}								    
+		;								    
 
 formalsList	::= formalDecl:d
 		{:
@@ -171,29 +213,83 @@ formalsList	::= formalDecl:d
 		:}
 		;
 
-
-varDecl         ::= type:t id:i DOT
-                {:
-		RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);
-                :}
-		| TUPLE id:i1 id:i2 DOT
-		{:
-		TupleNode tNode = new TupleNode(i1);
-		RESULT = new VarDeclNode(tNode, i2, 1);
-		:}
-                ;
-
-varDeclList	::= varDeclList:l varDecl:v
-		{:
-		l.add(v);
-		RESULT = l;
-		:}
-		| /* epsilon */
-		{:
-		LinkedList<VarDeclNode> list = new LinkedList<VarDeclNode>();
-		RESULT = list;
-		:}
+formalDecl	::= type:t id:i		 
+		{:			 
+		RESULT =		 
+		new FormalDeclNode(t,i); 
+		:}			 
+		;			 
+fctnBody	::= LSQBRACKET varDeclList:v stmtList:s RSQBRACKET     
+		{:						       
+		DeclListNode vars = new DeclListNode(v);	       
+		StmtListNode stmts = new StmtListNode(s);	       
+		RESULT = new FctnBodyNode(vars, stmts);		       
+		:}						       
 		;
+		
+stmtList	::= stmtList:l stmt:s					 
+		{:							 
+		l.add(s);						 
+		RESULT = l;						 
+		:}							 
+		|							 
+		/* epsilon */						 
+		{:							 
+		LinkedList<StmtNode> list = new LinkedList<StmtNode>();	 
+		RESULT = list;						 
+		:}							 
+		;							 
+
+stmt		::= RETURN exp:e DOT		       
+		{:				       
+		RESULT = new ReturnStmtNode(e);	       
+		:}				       
+		| RETURN DOT			       
+		{:				       
+		RESULT = new ReturnStmtNode(null);     
+		:}				       
+		;				       
+
+exp		::= term:t     
+		{: RESULT = t; 
+		:}	       
+		;	       
+
+term		::= loc:l						     
+		{:							     
+		RESULT = l;						     
+		:}							     
+		| TRUE:t						     
+		{:							     
+		RESULT = new TrueNode(t.lineNum,t.charNum);		     
+		:}							     
+		| FALSE:t						     
+		{:							     
+		RESULT = new FalseNode(t.lineNum,t.charNum);		     
+		:}							     
+		| INTLITERAL:t						     
+		{:							     
+		RESULT = new IntLitNode(t.lineNum,t.charNum,t.intVal);	     
+		:}							     
+		| STRLITERAL:t						     
+		{:							     
+		RESULT = new StringLitNode(t.lineNum,t.charNum,t.strVal);    
+		:}							     
+		| LPAREN exp:e RPAREN					     
+		{:							     
+		RESULT = e;						     
+		:}							     
+		| fctnCall:f						     
+		{:							     
+		RESULT = f;						     
+		:}							     
+		;							     
+
+fctnCall	::= id:i LPAREN RPAREN		   
+		{:				   
+		RESULT = new CallExpNode(i,null);  
+		:}				   
+		;				   
 
 type            ::= LOGICAL
                 {: RESULT = new LogicalNode();
@@ -208,117 +304,17 @@ type            ::= LOGICAL
 		:}
                 ;
 
+loc		::= id:i			     
+		{:				     
+		RESULT = i;			     
+		:}				     
+		| loc:l COLON id:i		     
+		{:				     
+		RESULT = new TupleAccessExpNode(l,i);
+		:}				     
+		;				     
 
 id              ::= ID:i
                 {: RESULT = new IdNode(i.lineNum, i.charNum, i.idVal);
                 :}
-                ;
-				
-tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT                  
-                {:							      
-		DeclListNode decl = new DeclListNode(b);		      
-                RESULT = new TupleDeclNode(i, decl);      		      
-                :}                                         		      
-                ;							      
-                							      
-tupleBody	::= tupleBody:body varDecl:v				      
-		{:							      
-		body.add(v);						      
-		RESULT = body;						      
-		:}							      
-		| varDecl:v						      
-		{:							      
-		LinkedList<VarDeclNode> nodes = new LinkedList<VarDeclNode>();
-		nodes.add(v);						      
-		RESULT = nodes;						      
-		:}							      
-		;							      
-
-fctnCall	::= id:i LPAREN RPAREN
-		{:
-		RESULT = new CallExpNode(i,null);
-		:}
-		;
-
-fctnDecl	::= type:t id:i formals:f fctnBody:b
-		{:
-		RESULT = new FctnDeclNode(t,i,f,b);
-		:}
-		;
-
-fctnBody	::= LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
-		{:
-		DeclListNode vars = new DeclListNode(v);
-		StmtListNode stmts = new StmtListNode(s);
-		RESULT = new FctnBodyNode(vars, stmts);
-		:}
-		;
-		
-stmtList	::= stmtList:l stmt:s
-		{:
-		l.add(s);
-		RESULT = l;
-		:}
-		|
-		/* epsilon */
-		{:
-		LinkedList<StmtNode> list = new LinkedList<StmtNode>();
-		RESULT = list;
-		:}
-		;
-
-stmt		::= RETURN exp:e DOT
-		{:
-		RESULT = new ReturnStmtNode(e);
-		:}
-		| RETURN DOT
-		{:
-		RESULT = new ReturnStmtNode(null);
-		:}
-		;
-
-exp		::= term:t
-		{: RESULT = t;
-		:}
-		;
-		
-term		::= loc:l
-		{:
-		RESULT = l;
-		:}
-		| TRUE:t
-		{:
-		RESULT = new TrueNode(t.lineNum,t.charNum);
-		:}
-		| FALSE:t
-		{:
-		RESULT = new FalseNode(t.lineNum,t.charNum);
-		:}
-		| INTLITERAL:t
-		{:
-		RESULT = new IntLitNode(t.lineNum,t.charNum,t.intVal);
-		:}
-		| STRLITERAL:t
-		{:
-		RESULT = new StringLitNode(t.lineNum,t.charNum,t.strVal);
-		:}
-		| LPAREN exp:e RPAREN
-		{:
-		RESULT = e;
-		:}
-		| fctnCall:f
-		{:
-		RESULT = f;
-		:}
-		;
-
-
-loc		::= id:i
-		{:
-		RESULT = i;
-		:}
-		| loc:l COLON id:i
-		{:
-		RESULT = new TupleAccessExpNode(l,i);
-		:}
-		;
+                ;	      
