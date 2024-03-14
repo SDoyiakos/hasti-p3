@@ -285,18 +285,26 @@ term		::= loc:l
 		:}							     
 		;							     
 
-fctnCall	::= id:i LPAREN RPAREN		   
+fctnCall	
+		::= id:i LPAREN RPAREN		   
 		{:				   
 		RESULT = new CallExpNode(i,null);  
-		:}				   
+		:}
+		| id:i LPAREN actualList:1 RPAREN
+		{:				   
+		RESULT = new CallExpNode(i, new ExpListNode(l));  
+		:}		
+					   
 		;				   
 
-type            ::= LOGICAL
-                {: RESULT = new LogicalNode();
-                :}
+type    
+		::= INTEGER
+		{: 
+		RESULT = new IntegerNode();
+		:}
 		|
-		INTEGER
-		{: RESULT = new IntegerNode();
+		LOGICAL
+		{: RESULT = new LogicalNode();
 		:}
 		|
 		VOID
