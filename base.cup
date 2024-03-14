@@ -262,7 +262,15 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}				       
 		;				       
 
-exp		::= exp:e1 LESS exp:e2
+exp		::= exp:e1 GREATER exp:e2
+		{:
+		RESULT = new GreaterNode(e1,e2);
+		:}
+		| exp:e1 GREATEREQ exp:e2
+		{:
+		RESULT = new GreaterEqNode(e1,e2);
+		:}
+		| exp:e1 LESS exp:e2
 		{:
 		RESULT = new LessNode(e1,e2);
 		:}
