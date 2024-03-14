@@ -67,7 +67,7 @@ terminal                WHILE;
 terminal                READ;
 terminal                WRITE;
 terminal                RETURN;
-
+terminal 		UMINUS;
 
 /* Nonterminals
  *
@@ -105,7 +105,7 @@ precedence left AND;
 precedence nonassoc GREATER, GREATEREQ, LESS, LESSEQ, EQUALS, NOTEQUALS;
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
-precedence right NOT;
+precedence nonassoc NOT, UMINUS;
 
 start with program;
 
@@ -262,7 +262,11 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}				       
 		;				       
 
-exp		::= term:t     
+exp		::= MINUS term:t
+		{:
+		RESULT = new UnaryMinusNode(t);
+		:} %prec UMINUS
+		| term:t     
 		{: RESULT = t; 
 		:}	       
 		;	       

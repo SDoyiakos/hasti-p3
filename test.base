@@ -22,6 +22,7 @@ void testFunc {integer input1, logical value1} [
     while a [
     	  integer val.
 	  write << "written val".
+	  return -8.
 	  return val.
 ]
 
