@@ -8,7 +8,7 @@ tuple Man {
       logical data.
 }.
 
-void testFunc {} [
+void testFunc {integer input1, logical value1} [
     integer data.
     void random.
     tuple test1 test2.

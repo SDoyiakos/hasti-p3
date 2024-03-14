@@ -194,10 +194,13 @@ class FormalsListNode extends ASTnode {
     public void unparse(PrintWriter p, int indent) {
 	doIndent(p,indent);
 	p.print("{");
-	for(FormalDeclNode formal: myFormals){
-	    p.print(" ");
-	    formal.unparse(p, indent);
-	    
+	for(int i =myFormals.size()-1;i>=0;i--){
+	    myFormals.get(i).unparse(p, indent);
+
+	    // Only adds commas between
+	    if(i != 0){		 
+	    	p.print(", ");	 
+	    }			 
 	}
 	p.print("}");
     }
@@ -293,6 +296,7 @@ class FormalDeclNode extends DeclNode {
 
     public void unparse(PrintWriter p, int indent) {
 	myType.unparse(p, indent);
+	p.print(" ");
 	myId.unparse(p, indent);
     }
 

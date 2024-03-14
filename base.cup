@@ -86,13 +86,15 @@ non terminal FctnDeclNode     fctnDecl;
 non terminal FctnBodyNode     fctnBody;
 non terminal CallExpNode      fctnCall;
 non terminal LinkedList	      stmtList;
-non terminal FormalsListNode  formals;
 non terminal LinkedList	      varDeclList;
 non terminal ExpNode	      term;
 non terminal ExpNode	      exp;
 non terminal AssignExpNode    assignExp;
 non terminal ExpNode	      loc;
 non terminal StmtNode	      stmt;
+non terminal FormalDeclNode   formalDecl;
+non terminal LinkedList       formalsList;
+non terminal FormalsListNode  formals;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
    	 to highest at bottom) */
@@ -138,6 +140,37 @@ decl            ::= varDecl:v
 		RESULT = f;
 		:}
                 ;
+
+formalDecl	::= type:t id:i
+		{:
+		RESULT =
+		new FormalDeclNode(t,i);
+		:}
+		;
+
+formals		::= LCURLY RCURLY
+		{:
+		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
+		:}
+		| LCURLY formalsList:l RCURLY
+		{:
+		RESULT = new FormalsListNode(l);
+		:}
+		;
+
+formalsList	::= formalDecl:d
+		{:
+		LinkedList<FormalDeclNode> list = new LinkedList<FormalDeclNode>();
+		list.add(d);
+		RESULT = list;
+		:}
+		| formalDecl:d COMMA formalsList:l
+		{:
+		l.add(d);
+		RESULT = l;
+		:}
+		;
+
 
 varDecl         ::= type:t id:i DOT
                 {:
@@ -241,13 +274,6 @@ stmt		::= RETURN exp:e DOT
 		| RETURN DOT
 		{:
 		RESULT = new ReturnStmtNode(null);
-		:}
-		;
-
-
-formals		::= LCURLY RCURLY
-		{:
-		RESULT = new FormalsListNode(new LinkedList<FormalDeclNode>());
 		:}
 		;
 
