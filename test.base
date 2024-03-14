@@ -16,6 +16,7 @@ void testFunc {} [
     return "test".
     return False.
     return.
+    return a:b.
 ]
 tuple id1 id2.
 

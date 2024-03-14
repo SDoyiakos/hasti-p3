@@ -91,7 +91,7 @@ non terminal LinkedList	      varDeclList;
 non terminal ExpNode	      term;
 non terminal ExpNode	      exp;
 non terminal AssignExpNode    assignExp;
-non terminal LinkedList       loc;
+non terminal ExpNode	      loc;
 non terminal StmtNode	      stmt;
 
 /* NOTE: Add precedence and associativity declarations here (precedence goes from lowest at top
@@ -256,7 +256,11 @@ exp		::= term:t
 		:}
 		;
 		
-term		::= TRUE:t
+term		::= loc:l
+		{:
+		RESULT = l;
+		:}
+		| TRUE:t
 		{:
 		RESULT = new TrueNode(t.lineNum,t.charNum);
 		:}
@@ -285,13 +289,10 @@ term		::= TRUE:t
 
 loc		::= id:i
 		{:
-		LinkedList<IdNode> ids = new LinkedList<IdNode>();
-		ids.add(i);
-		RESULT = ids;
+		RESULT = i;
 		:}
 		| loc:l COLON id:i
 		{:
-		l.add(i);
-		RESULT = l;
+		RESULT = new TupleAccessExpNode(l,i);
 		:}
 		;
