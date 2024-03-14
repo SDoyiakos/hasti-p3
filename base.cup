@@ -262,7 +262,11 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}				       
 		;				       
 
-exp		::= MINUS term:t
+exp		::= NOT exp:e
+		{:
+		RESULT = new NotNode(e);
+		:}
+		| MINUS term:t
 		{:
 		RESULT = new UnaryMinusNode(t);
 		:} %prec UMINUS

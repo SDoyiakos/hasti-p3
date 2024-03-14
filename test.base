@@ -24,7 +24,9 @@ void testFunc {integer input1, logical value1} [
 	  write << "written val".
 	  return -8.
 	  return val.
-]
+    ]
+
+    return ~a.
 
 ]
 tuple id1 id2.
