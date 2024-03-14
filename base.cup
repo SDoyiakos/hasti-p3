@@ -262,7 +262,11 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}				       
 		;				       
 
-exp		::= exp:e1 AND exp:e2
+exp		::= exp:e1 LESSEQ exp:e2
+		{:
+		RESULT = new LessEqNode(e1,e2);
+		:}
+		| exp:e1 AND exp:e2
 		{:
 		RESULT = new AndNode(e1,e2);
 		:}

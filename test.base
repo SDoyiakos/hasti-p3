@@ -32,6 +32,7 @@ void testFunc {integer input1, logical value1} [
 
     return ~a.
     return ~a | b & -c.
+    return a <= 3.
 ]
 tuple id1 id2.
 
