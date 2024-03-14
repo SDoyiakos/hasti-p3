@@ -517,9 +517,8 @@ class CallStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	if(myCall!=null){
-	    myCall.unparse(p,indent+4);
-	}
+	myCall.unparse(p,indent+4);
+	
     }
 
     // 1 child
@@ -672,9 +671,12 @@ class CallExpNode extends ExpNode {
 
     // **** unparse ****
     public void unparse(PrintWriter p, int indent) {
+	
 	myId.unparse(p,indent);
 	p.print("(");
-	myExpList.unparse(p,indent);
+	if(myExpList!=null){
+	    myExpList.unparse(p,indent);
+	}
 	p.print(")");
     }
 
