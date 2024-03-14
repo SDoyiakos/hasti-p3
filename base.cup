@@ -215,10 +215,10 @@ formalsList	::= formalDecl:d
 
 formalDecl	::= type:t id:i		 
 		{:			 
-		RESULT =		 
-		new FormalDeclNode(t,i); 
+		RESULT = new FormalDeclNode(t,i); 
 		:}			 
-		;			 
+		;
+		
 fctnBody	::= LSQBRACKET varDeclList:v stmtList:s RSQBRACKET     
 		{:						       
 		DeclListNode vars = new DeclListNode(v);	       
@@ -240,8 +240,20 @@ stmtList	::= stmtList:l stmt:s
 		:}							 
 		;							 
 
-stmt		::= RETURN exp:e DOT		       
-		{:				       
+stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
+		{:
+		RESULT = new WhileStmtNode(e,new DeclListNode(v),new StmtListNode(s));
+		:}
+		| READ INPUTOP loc:e DOT
+		{:
+		RESULT = new ReadStmtNode(e);
+		:}
+		| WRITE OUTPUTOP exp:e DOT
+		{:
+		RESULT = new WriteStmtNode(e);
+		:}
+		| RETURN exp:e DOT		       
+		{:
 		RESULT = new ReturnStmtNode(e);	       
 		:}				       
 		| RETURN DOT			       

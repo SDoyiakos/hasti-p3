@@ -17,6 +17,14 @@ void testFunc {integer input1, logical value1} [
     return False.
     return.
     return a:b.
+    write << True.
+
+    while a [
+    	  integer val.
+	  write << "written val".
+	  return val.
+]
+
 ]
 tuple id1 id2.
 

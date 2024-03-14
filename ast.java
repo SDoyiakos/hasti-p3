@@ -463,6 +463,14 @@ class WhileStmtNode extends StmtNode {
     }
 	
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
+	p.print("while ");
+	myExp.unparse(p,indent);
+	p.print(" [\n");
+	myDeclList.unparse(p,indent+4);
+	myStmtList.unparse(p,indent+4);
+	doIndent(p,indent);
+	p.print("]");
     }
 
     // 3 children
@@ -477,6 +485,10 @@ class ReadStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
+	p.print("read >> ");
+	myExp.unparse(p,indent);
+	p.print(".");
     }
 
     // 1 child (actually can only be an IdNode or a TupleAccessNode)
@@ -489,6 +501,10 @@ class WriteStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
+	p.print("write << ");
+	myExp.unparse(p,indent);
+	p.print(".");
     }
 
     // 1 child
@@ -543,7 +559,7 @@ class TrueNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	p.print("true");
+	p.print("True");
     }
 
     private int myLineNum;
@@ -557,7 +573,7 @@ class FalseNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	p.print("false");
+	p.print("False");
     }
 
     private int myLineNum;
