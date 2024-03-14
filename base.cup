@@ -262,7 +262,15 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		:}				       
 		;				       
 
-exp		::= NOT exp:e
+exp		::= exp:e1 AND exp:e2
+		{:
+		RESULT = new AndNode(e1,e2);
+		:}
+		| exp:e1 OR exp:e2
+		{:
+		RESULT = new OrNode(e1,e2);
+		:}
+		| NOT exp:e
 		{:
 		RESULT = new NotNode(e);
 		:}
