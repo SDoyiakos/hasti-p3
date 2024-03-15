@@ -88,6 +88,10 @@ void main {integer input1, logical value1} [
 	 return bool1 | bool2 & ~bool3.    
     ]
 
+    !! Testing fctnCall
+    outputVal = someFunc().
+    otherVal = someFunc(a, 5 + -8).
+
 ]
 tuple id1 id2.
 

@@ -184,9 +184,11 @@ class ExpListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	for(ExpNode expr: myExps){
-	    expr.unparse(p,indent);
-	    p.print("\n");
+	for(int i = 0; i < myExps.size();i++){
+	    myExps.get(i).unparse(p,indent);
+	    if(i!= myExps.size() -1){
+		p.print(", ");
+	    }
 	}
     }
 
