@@ -192,4 +192,7 @@ integer mix{integer val1, logical val2} [
     return x - -x.
 ]
 
+!! Testing a function with no decl or statements
+void emptyFunc{}[]
+
 tuple id1 id2. $ Testing a tuple var declaration
