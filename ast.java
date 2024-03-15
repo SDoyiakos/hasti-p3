@@ -395,7 +395,7 @@ class AssignStmtNode extends StmtNode {
 
     public void unparse(PrintWriter p, int indent) {
         myAssign.unparse(p, indent);
-        p.println(';');
+        p.print(".");
 
     }
     // 1 child

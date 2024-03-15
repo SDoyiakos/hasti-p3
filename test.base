@@ -38,7 +38,7 @@ void main {integer input1, logical value1} [
     read >> this:is:a:long:location.
 
     !! Testing a while
-    while a < 3 [
+    while a < 3 | a == 4 [
 
     	  !! Testing varDecls
     	  integer val.
@@ -53,7 +53,7 @@ void main {integer input1, logical value1} [
 
     ]
 
-    if x>=y [
+    if x>=y & x < 3 [
        !! Testing varDecls  
        integer val.         
        void val2.           
