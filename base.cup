@@ -241,7 +241,23 @@ stmtList	::= stmtList:l stmt:s
 		:}							 
 		;							 
 
-stmt		::= IF exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
+stmt		::= assignExp:e DOT
+		{:
+		RESULT = new AssignStmtNode(e);
+		:}
+		| fctnCall:f DOT
+		{:
+		RESULT = new CallStmtNode(f);
+		:}
+		| loc:l PLUSPLUS DOT
+		{:
+		RESULT = new PostIncStmtNode(l);
+		:}
+		| loc:l MINUSMINUS DOT
+		{:
+		RESULT = new PostDecStmtNode(l);
+		:}
+		| IF exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		{:
 		RESULT = new IfStmtNode(e,new DeclListNode(v),new StmtListNode(s));
 		:}
