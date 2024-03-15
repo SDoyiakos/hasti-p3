@@ -6,6 +6,7 @@ void c.    $ Test types outside method
 tuple Person { 
       integer age.
       logical data.
+      tuple t1 t2.
 }.
 
 
@@ -93,5 +94,87 @@ void main {integer input1, logical value1} [
     otherVal = someFunc(a, 5 + -8).
 
 ]
-tuple id1 id2.
+
+!! Testing a function with no params
+void everyExp{} [
+
+     !! PLUS
+     a = 1 + 2.
+     a = a + 1.
+     a = a + b.
+
+     !! MINUS
+     a = 1 - 2.
+     a = a - 1.
+     a = a - b.
+
+     !! Times
+     a = 1 * 2.
+     a = a * 1.
+     a = a * b.
+
+     !! DIVIDE
+     a = 1 / 2.
+     a = a / 1.
+     a = a / b.
+
+     !! EQUALS
+     a = 1 == 2.
+     a = a == 1.
+     a = a == b.
+
+     !! NOT EQUALS
+     a = 1 ~= 2.
+     a = a ~= 1.
+     a = a ~= b.
+     a = a ~= "string".
+
+     !! GREATER
+     a = 1 > 2.
+     a = a > 1.
+     a = a > b.
+
+     !! GREATER EQUALS
+     a = 1 >= 2.
+     a = a >= 1.
+     a = a >= b.
+
+     !! LESS THAN
+     a = 1 < 2.
+     a = a < 1.
+     a = a < b.
+
+     !! LESS EQUALS
+     a = 1 <= 2.
+     a = a <= 1.
+     a = a <= b.
+
+     !! AND
+     a = 1 & False.
+     a = a & True.
+     a = a & b.
+
+     !! OR
+     a = 1 | False.
+     a = a | True.
+     a = a | b.
+
+     !! NOT
+     a = ~True.
+     a = ~False.
+     a = ~a.
+
+     !! UMINUS
+     a = -5.
+     a = -a.
+
+     !! ASSIGN ASSIGN
+    a = b = c.
+    a = b = 5.
+    a = b = "val".
+    a = b = False.
+
+]
+
+tuple id1 id2. $ Testing a tuple var declaration
 

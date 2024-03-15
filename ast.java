@@ -396,6 +396,7 @@ class AssignStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p, indent);
         myAssign.unparse(p, indent);
         p.print(".");
 
@@ -692,7 +693,6 @@ class AssignExpNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	doIndent(p,indent);
 	myLhs.unparse(p,indent);
 	p.print(" = ");
 	myExp.unparse(p,indent);
