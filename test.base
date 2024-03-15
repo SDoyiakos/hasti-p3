@@ -4,9 +4,9 @@ void c.    $ Test types outside method
 
 !! Defining a tuple with vardecls in body
 tuple Person { 
-      integer age.
-      logical data.
-      tuple t1 t2.
+	integer age.
+	logical data.
+	tuple t1 t2.
 }.
 
 
@@ -25,9 +25,11 @@ void main {integer input1, logical value1} [
     return (a + b) < c.
     return.
     return a:b.
+    return 50.
 
     !! Testing writes
     write << True.
+    write << "test".
     write << a & b & c.
     write << 5.
     write << 3 + 2 / 3 * 5. $ Also a test of associativity
@@ -41,52 +43,54 @@ void main {integer input1, logical value1} [
     !! Testing a while
     while a < 3 | a == 4 [
 
-    	  !! Testing varDecls
-    	  integer val.
-	  void val2.
-	  logical _veryLogical.
+		!! Testing varDecls
+		integer val.
+		void val2.
+		logical _veryLogical.
 
-	  !! Testing stmt
-	  someVal = 5 + 5.
-	  return ~a.
-	  return -a.
-	  return True & False | someBool.
+		!! Testing stmt
+		someVal = 5 + 5.
+		return ~a.
+		return -a.
+		return True & False | someBool.
 
     ]
 
     if x>=y & x < 3 [
-       !! Testing varDecls  
-       integer val.         
-       void val2.           
-       logical _veryLogical.
 
-       !! Testing stmts
-       someNum++.
-       someNum--.
+		!! Testing varDecls  
+		integer val.         
+		void val2.           
+		logical _veryLogical.
+
+		!! Testing stmts
+		someNum++.
+		someNum--.
 
     ]
 
     !! Testing if-else 
     if ~bool [
-    
-	 !! Testing varDecls   
-   	 integer val.          
-    	 void val2.            
-    	 logical _veryLogical. 
 
-	 !! Testing stmts
-	 x = x + 1.
-    	 return x >= y + y/2.
+		!! Testing varDecls   
+		integer val.          
+		void val2.            
+		logical _veryLogical. 
+
+		!! Testing stmts
+		x = x + 1.
+		return x >= y + y/2.
     ]
     else [
-    	 !! Testing varDecls     
-	 integer val.            
-	 void val2.              
-	 logical _veryLogical.   
-	                         
-	 !! Testing stmts        
-	 x:val = x + 1 - 2 * 3 / 4.              
-	 return bool1 | bool2 & ~bool3.    
+
+		!! Testing varDecls     
+		integer val.            
+		void val2.              
+		logical _veryLogical.   
+								
+		!! Testing stmts        
+		x:val = x + 1 - 2 * 3 / 4.              
+		return bool1 | bool2 & ~bool3.    
     ]
 
     !! Testing fctnCall
@@ -98,77 +102,77 @@ void main {integer input1, logical value1} [
 !! Testing a function with no params
 void everyExp{} [
 
-     !! PLUS
-     a = 1 + 2.
-     a = a + 1.
-     a = a + b.
+	!! PLUS
+	a = 1 + 2.
+	a = a + 1.
+	a = a + b.
 
-     !! MINUS
-     a = 1 - 2.
-     a = a - 1.
-     a = a - b.
+	!! MINUS
+	a = 1 - 2.
+	a = a - 1.
+	a = a - b.
 
-     !! Times
-     a = 1 * 2.
-     a = a * 1.
-     a = a * b.
+	!! Times
+	a = 1 * 2.
+	a = a * 1.
+	a = a * b.
 
-     !! DIVIDE
-     a = 1 / 2.
-     a = a / 1.
-     a = a / b.
+	!! DIVIDE
+	a = 1 / 2.
+	a = a / 1.
+	a = a / b.
 
-     !! EQUALS
-     a = 1 == 2.
-     a = a == 1.
-     a = a == b.
+	!! EQUALS
+	a = 1 == 2.
+	a = a == 1.
+	a = a == b.
 
-     !! NOT EQUALS
-     a = 1 ~= 2.
-     a = a ~= 1.
-     a = a ~= b.
-     a = a ~= "string".
+	!! NOT EQUALS
+	a = 1 ~= 2.
+	a = a ~= 1.
+	a = a ~= b.
+	a = a ~= "string".
 
-     !! GREATER
-     a = 1 > 2.
-     a = a > 1.
-     a = a > b.
+	!! GREATER
+	a = 1 > 2.
+	a = a > 1.
+	a = a > b.
 
-     !! GREATER EQUALS
-     a = 1 >= 2.
-     a = a >= 1.
-     a = a >= b.
+	!! GREATER EQUALS
+	a = 1 >= 2.
+	a = a >= 1.
+	a = a >= b.
 
-     !! LESS THAN
-     a = 1 < 2.
-     a = a < 1.
-     a = a < b.
+	!! LESS THAN
+	a = 1 < 2.
+	a = a < 1.
+	a = a < b.
 
-     !! LESS EQUALS
-     a = 1 <= 2.
-     a = a <= 1.
-     a = a <= b.
+	!! LESS EQUALS
+	a = 1 <= 2.
+	a = a <= 1.
+	a = a <= b.
 
-     !! AND
-     a = 1 & False.
-     a = a & True.
-     a = a & b.
+	!! AND
+	a = 1 & False.
+	a = a & True.
+	a = a & b.
 
-     !! OR
-     a = 1 | False.
-     a = a | True.
-     a = a | b.
+	!! OR
+	a = 1 | False.
+	a = a | True.
+	a = a | b.
 
-     !! NOT
-     a = ~True.
-     a = ~False.
-     a = ~a.
+	!! NOT
+	a = ~True.
+	a = ~False.
+	a = ~a.
 
-     !! UMINUS
-     a = -5.
-     a = -a.
+	!! UMINUS
+	a = -5.
+	a = -a.
 
-     !! ASSIGN ASSIGN
+	!! ASSIGN ASSIGN
     a = b = c.
     a = b = 5.
     a = b = "val".
@@ -176,8 +180,7 @@ void everyExp{} [
 ]
 
 logical becksExample{} [
-
-    if b == -1 [ x = 4+3*5-y. while c [ y = y*2+x. ] ] else [ x = 0. ]
+	if b == -1 [ x = 4+3*5-y. while c [ y = y*2+x. ] ] else [ x = 0. ]
 ]
 
 
@@ -190,4 +193,3 @@ integer mix{integer val1, logical val2} [
 ]
 
 tuple id1 id2. $ Testing a tuple var declaration
-
