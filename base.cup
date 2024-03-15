@@ -241,7 +241,12 @@ stmtList	::= stmtList:l stmt:s
 		:}							 
 		;							 
 
-stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
+stmt		::= IF exp:e LSQBRACKET varDeclList:vo stmtList:so RSQBRACKET
+		ELSE LSQBRACKET varDeclList:vi stmtList:si RSQBRACKET
+     		{:
+		RESULT = new IfElseStmtNode(e,new DeclListNode(vo),new StmtListNode(so),new DeclListNode(vi),new StmtListNode(si));
+		:}
+		| WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		{:
 		RESULT = new WhileStmtNode(e,new DeclListNode(v),new StmtListNode(s));
 		:}
@@ -262,6 +267,13 @@ stmt		::= WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		RESULT = new ReturnStmtNode(null);     
 		:}				       
 		;				       
+
+assignExp	::= loc:l ASSIGN exp:e
+		{:
+		RESULT = new AssignExpNode(l,e);
+		:}
+		;
+
 
 exp		::= exp:e1 GREATER exp:e2
 		{:
