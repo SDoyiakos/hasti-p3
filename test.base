@@ -1,41 +1,71 @@
-logical a.
-logical b.
-integer c.
-integer f.
-integer d.
-tuple Man {
+logical a. $ Test types outside method
+integer b. $ Test types outside method
+void c.    $ Test types outside method
+
+!! Defining a tuple with vardecls in body
+tuple Person { 
       integer age.
       logical data.
 }.
 
-void testFunc {integer input1, logical value1} [
-    integer data.
-    void random.
+
+!! Testing a function with inputs
+void main {integer input1, logical value1} [
+
+    !! Testing vardecls
+    void voidTest.
+    integer intTest.
+    logical logTest.
     tuple test1 test2.
+
+    !! Returning exp and empty return    
     return True.
     return "test".
-    return False.
+    return (a + b) < c.
     return.
     return a:b.
+
+    !! Testing writes
     write << True.
-    
-    read >> start:next.
     write << a & b & c.
-    
+    write << 5.
+    write << 3 + 2 / 3 * 5. $ Also a test of associativity
+    write << 3 + 2 - 3 * 5. $ Another associativity tests    
+
+    !! Testing reads
+    read >> start:next.
+    read >> location.
+    read >> this:is:a:long:location.
+
+    !! Testing a while
     while a < 3 [
+
+    	  !! Testing varDecls
     	  integer val.
-	  write << "written val".
-	  return -8.
-	  return val.
-	  return -a | ~b.
+	  void val2.
+	  logical _veryLogical.
+
+	  !! Testing stmt
+	  someVal = 5 + 5.
+	  return ~a.
+	  return -a.
+	  return True & False | someBool.
 
     ]
 
-    return ~a.
-    return ~a | b & -c.
-    return a <= 3.
-    return 5 > 3.
-    return 0 >= -3.
+    if x>=y [
+       !! Testing varDecls  
+       integer val.         
+       void val2.           
+       logical _veryLogical.
+
+       !! Testing stmts
+       someNum++.
+       someNum--.
+
+    ]
+
+
 ]
 tuple id1 id2.
 

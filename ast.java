@@ -161,9 +161,16 @@ class StmtListNode extends ASTnode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-	for(StmtNode stmt: myStmts){
-	    stmt.unparse(p,indent);
-	    p.print("\n");
+	Iterator it = myStmts.iterator();
+	try {
+	    while (it.hasNext()) {
+		((StmtNode)it.next()).unparse(p, indent);
+		p.print("\n");
+	    }
+	}
+	catch(NoSuchElementException ex) {
+	    System.err.println("unexpected NoSuchElementException in DeclListNode.print");
+	    System.exit(-1);
 	}
     }
 
@@ -401,9 +408,10 @@ class PostIncStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
-        myExp.unparse(p, indent);
+	doIndent(p,indent);
+	myExp.unparse(p, indent);
         p.print("++");
-        p.println(";");
+        p.print(".");
     }
 
     // 1 child
@@ -416,9 +424,10 @@ class PostDecStmtNode extends StmtNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
         myExp.unparse(p, indent);
         p.print("--");
-        p.println(";");
+        p.print(".");
     }
 
     // 1 child
@@ -679,6 +688,10 @@ class AssignExpNode extends ExpNode {
     }
 
     public void unparse(PrintWriter p, int indent) {
+	doIndent(p,indent);
+	myLhs.unparse(p,indent);
+	p.print(" = ");
+	myExp.unparse(p,indent);
     }
 
     // 2 children
