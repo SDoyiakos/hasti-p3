@@ -115,23 +115,23 @@ start with program;
  *
  * NOTE: add more grammar rules below
  */
-program         ::= declList: d
-                {: RESULT = new ProgramNode(new DeclListNode(d));
-                :}
-                ;
+program		::= declList: d
+		{: RESULT = new ProgramNode(new DeclListNode(d));
+		:}
+		;
 
-declList        ::= declList:dl decl:d
-                {: dl.addLast(d);
-                   RESULT = dl;
-                :}
-                | /* epsilon */
-                {: RESULT = new LinkedList<DeclNode>();
-                :}
-                ;
+declList    ::= declList:dl decl:d
+		{: dl.addLast(d);
+			RESULT = dl;
+		:}
+		| /* epsilon */
+		{: RESULT = new LinkedList<DeclNode>();
+		:}
+		;
 
-decl            ::= varDecl:v
-                {: RESULT = v;
-                :}
+decl    ::= varDecl:v
+		{: RESULT = v;
+		:}
 		| tupleDecl:t
 		{:
 		RESULT = t;
@@ -140,7 +140,7 @@ decl            ::= varDecl:v
 		{:
 		RESULT = f;
 		:}
-                ;
+        ;
 		
 varDeclList	::= varDeclList:l varDecl:v				       
 		{:							       
@@ -154,16 +154,16 @@ varDeclList	::= varDeclList:l varDecl:v
 		:}
 		;							       
 
-varDecl         ::= type:t id:i DOT						   
-                {:								   
+varDecl		::= type:t id:i DOT						   
+		{:								   
 		RESULT = new VarDeclNode(t, i, VarDeclNode.NON_TUPLE);		   
-                :}								   
+		:}						   
 		| TUPLE id:i1 id:i2 DOT						   
 		{:								   
 		TupleNode tNode = new TupleNode(i1);				   
 		RESULT = new VarDeclNode(tNode, i2, 1);				   
 		:}								   
-                ;								  	   
+        ;								  	   
 
 fctnDecl	::= type:t id:i formals:f fctnBody:b		  
 		{:						  
@@ -171,12 +171,12 @@ fctnDecl	::= type:t id:i formals:f fctnBody:b
 		:}						  
 		;						  
 
-tupleDecl       ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT          
-                {:						      
+tupleDecl   ::= TUPLE id:i LCURLY tupleBody:b RCURLY DOT          
+		{:						      
 		DeclListNode decl = new DeclListNode(b);	      
-                RESULT = new TupleDeclNode(i, decl);      	      
-                :}                                         	      
-                ;
+		RESULT = new TupleDeclNode(i, decl);      	      
+		:}                                         	      
+		;
 
 tupleBody	::= tupleBody:body varDecl:v				      
 		{:							      
@@ -241,7 +241,7 @@ stmtList	::= stmtList:l stmt:s
 		:}							 
 		;							 
 
-stmt		::= assignExp:e DOT
+stmt	::= assignExp:e DOT
 		{:
 		RESULT = new AssignStmtNode(e);
 		:}
@@ -361,7 +361,7 @@ exp		::= assignExp:e
 		:}	       
 		;	       
 
-term		::= loc:l						     
+term	::= loc:l						     
 		{:							     
 		RESULT = l;						     
 		:}							     
@@ -391,8 +391,7 @@ term		::= loc:l
 		:}							     
 		;							     
 
-fctnCall	
-		::= id:i LPAREN RPAREN		   
+fctnCall	::= id:i LPAREN RPAREN		   
 		{:				   
 		RESULT = new CallExpNode(i,null);  
 		:}
@@ -414,8 +413,8 @@ actualList	::= exp:e
 		RESULT = l;
 		:}
 		;
-type    
-		::= INTEGER
+
+type    ::= INTEGER
 		{: 
 		RESULT = new IntegerNode();
 		:}
@@ -427,7 +426,7 @@ type
 		VOID
 		{: RESULT = new VoidNode();
 		:}
-                ;
+        ;
 
 loc		::= id:i			     
 		{:				     
@@ -439,7 +438,7 @@ loc		::= id:i
 		:}				     
 		;				     
 
-id              ::= ID:i
-                {: RESULT = new IdNode(i.lineNum, i.charNum, i.idVal);
-                :}
-                ;	      
+id      ::= ID:i
+		{: RESULT = new IdNode(i.lineNum, i.charNum, i.idVal);
+		:}
+		;	      
