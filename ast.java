@@ -860,7 +860,7 @@ class NotEqualsNode extends BinaryExpNode {
     public void unparse(PrintWriter p, int indent) {
         p.print("(");
         myExp1.unparse(p, indent);
-        p.print(" != ");
+        p.print(" ~= ");
         myExp2.unparse(p, indent);
         p.printf(")");
     }
