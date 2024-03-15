@@ -65,6 +65,28 @@ void main {integer input1, logical value1} [
 
     ]
 
+    !! Testing if-else 
+    if ~bool [
+    
+	 !! Testing varDecls   
+   	 integer val.          
+    	 void val2.            
+    	 logical _veryLogical. 
+
+	 !! Testing stmts
+	 x = x + 1.
+    	 return x >= y + y/2.
+    ]
+    else [
+    	 !! Testing varDecls     
+	 integer val.            
+	 void val2.              
+	 logical _veryLogical.   
+	                         
+	 !! Testing stmts        
+	 x:val = x + 1 - 2 * 3 / 4.              
+	 return bool1 | bool2 & ~bool3.    
+    ]
 
 ]
 tuple id1 id2.
