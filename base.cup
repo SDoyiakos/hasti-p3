@@ -296,7 +296,35 @@ assignExp	::= loc:l ASSIGN exp:e
 		;
 
 
-exp		::= exp:e1 GREATER exp:e2
+exp		::= assignExp:e
+		{:
+		RESULT = e;
+		:}
+		| exp:e1 PLUS exp:e2
+		{:
+		RESULT = new PlusNode(e1,e2);
+		:}
+		| exp:e1 MINUS exp:e2
+		{:
+		RESULT = new MinusNode(e1,e2);
+		:}
+		| exp:e1 TIMES exp:e2
+		{:
+		RESULT = new TimesNode(e1,e2);
+		:}
+		| exp:e1 DIVIDE exp:e2
+		{:
+		RESULT = new DivideNode(e1,e2);
+		:}
+		| exp:e1 EQUALS exp:e2
+		{:
+		RESULT = new EqualsNode(e1,e2);
+		:}
+		| exp:e1 NOTEQUALS exp:e2
+		{:
+		RESULT = new NotEqualsNode(e1,e2);
+		:}
+		| exp:e1 GREATER exp:e2
 		{:
 		RESULT = new GreaterNode(e1,e2);
 		:}
