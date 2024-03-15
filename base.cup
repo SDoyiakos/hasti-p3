@@ -241,10 +241,15 @@ stmtList	::= stmtList:l stmt:s
 		:}							 
 		;							 
 
-stmt		::= IF exp:e LSQBRACKET varDeclList:vo stmtList:so RSQBRACKET
+stmt		::= IF exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
+		{:
+		RESULT = new IfStmtNode(e,new DeclListNode(v),new StmtListNode(s));
+		:}
+		| IF exp:e LSQBRACKET varDeclList:vo stmtList:so RSQBRACKET
 		ELSE LSQBRACKET varDeclList:vi stmtList:si RSQBRACKET
      		{:
-		RESULT = new IfElseStmtNode(e,new DeclListNode(vo),new StmtListNode(so),new DeclListNode(vi),new StmtListNode(si));
+		RESULT = new IfElseStmtNode(e,new DeclListNode(vo),new StmtListNode(so)
+		       	 ,new DeclListNode(vi),new StmtListNode(si));
 		:}
 		| WHILE exp:e LSQBRACKET varDeclList:v stmtList:s RSQBRACKET
 		{:
