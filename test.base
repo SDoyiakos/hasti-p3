@@ -173,7 +173,20 @@ void everyExp{} [
     a = b = 5.
     a = b = "val".
     a = b = False.
+]
 
+logical becksExample{} [
+
+    if b == -1 [ x = 4+3*5-y. while c [ y = y*2+x. ] ] else [ x = 0. ]
+]
+
+
+integer mix{integer val1, logical val2} [
+    integer a.
+    integer b. 
+    write << x > 5 + 6 / 2.
+    
+    return x - -x.
 ]
 
 tuple id1 id2. $ Testing a tuple var declaration
